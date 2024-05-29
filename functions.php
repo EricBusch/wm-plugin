@@ -252,7 +252,7 @@ function wm_get_download_url( int $post_id ): string {
 }
 
 function wm_download_expiry_in_seconds(): int {
-	return HOUR_IN_SECONDS * 6;
+	return HOUR_IN_SECONDS * 12;
 }
 
 function wm_get_expiration_timestamp(): int {
