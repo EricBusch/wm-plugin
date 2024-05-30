@@ -275,3 +275,8 @@ function wm_increment_download_count( int $post_id ): void {
 	$download_count = $download_count + 1;
 	update_field( $key, $download_count, $post_id );
 }
+
+function wm_current_user_is_admin(): bool {
+	return current_user_can( 'manage_options' );
+}
+
