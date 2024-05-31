@@ -251,6 +251,7 @@ function wm_get_download_url( int $post_id ): string {
 	return get_permalink( get_page_by_path( 'download' ) ) . '?' . $qs;
 }
 
+// This was for Turnstile integration...
 function wm_get_download_input_fields( int $post_id ): array {
 	$fields = [];
 

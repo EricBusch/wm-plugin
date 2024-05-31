@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WM
  * Description: The WM plugin.
- * Version: 1.0.3
+ * Version: 1.0.4
  * Requires at least: 6.5.3
  * Requires PHP: 8.0
  * Text Domain: wm
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define Version and Paths
  */
-define( 'WM_VERSION', '1.0.3' );
+define( 'WM_VERSION', '1.0.4' );
 define( 'WM_URL', plugin_dir_url( __FILE__ ) ); // https://example.com/wp-content/plugins/wm-plugin/
 define( 'WM_PATH', plugin_dir_path( __FILE__ ) ); // /absolute/path/to/wp-content/plugins/wm-plugin/
 define( 'WM_BASENAME', plugin_basename( __FILE__ ) ); // wm-plugin/wm-plugin.php
