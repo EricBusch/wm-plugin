@@ -251,6 +251,16 @@ function wm_get_download_url( int $post_id ): string {
 	return get_permalink( get_page_by_path( 'download' ) ) . '?' . $qs;
 }
 
+function wm_get_download_input_fields( int $post_id ): array {
+	$fields = [];
+
+	$fields['post_id']   = $post_id;
+	$fields['expires']   = wm_get_expiration_timestamp();
+	$fields['signature'] = wm_hash_hmac( http_build_query( $fields ) );
+
+	return $fields;
+}
+
 function wm_download_expiry_in_seconds(): int {
 	return HOUR_IN_SECONDS * 12;
 }
