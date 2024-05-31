@@ -23,6 +23,28 @@ function wm_download_redirect(): void {
 	$expires   = absint( $_GET['expires'] ?? 0 );
 	$signature = trim( $_GET['signature'] ?? '' );
 
+	if ( wm_current_user_is_admin() ) {
+
+		// Validate Turnstile request
+		// @link https://suleymanozcan.medium.com/how-to-use-cloudflare-turnstile-with-vanilla-php-e409e5addb14
+		$turnstile_secret   = TURNSTILE_SECRET_KEY;
+		$turnstile_response = $_GET['cf-turnstile-response'];
+		$url                = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+		$post_fields        = "secret=$turnstile_secret&response=$turnstile_response";
+
+		$ch = curl_init( $url );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $ch, CURLOPT_POST, true );
+		curl_setopt( $ch, CURLOPT_POSTFIELDS, $post_fields );
+		$response = curl_exec( $ch );
+		curl_close( $ch );
+
+		$response_data = json_decode( $response );
+		if ( $response_data->success !== true ) {
+			die( 'Captcha Failed' );
+		}
+	}
+
 	// Validate that $post_id exists.
 	if ( ! get_post( $post_id ) ) {
 		die( 'Invalid post ID.' );

@@ -30,7 +30,6 @@ define( 'WM_PLUGIN_FILE', __FILE__ ); // /absolute/path/to/wp-content/plugins/wm
 require_once dirname( WM_PLUGIN_FILE ) . '/functions.php';
 require_once dirname( WM_PLUGIN_FILE ) . '/filters.php';
 require_once dirname( WM_PLUGIN_FILE ) . '/actions.php';
-//require_once dirname( WM_PLUGIN_FILE ) . '/importer.php';
 
 /**
  * Custom Image Sizes
