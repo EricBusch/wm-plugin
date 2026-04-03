@@ -291,3 +291,31 @@ function wm_current_user_is_admin(): bool {
 	return current_user_can( 'manage_options' );
 }
 
+/**
+ * Register rewrite rule for pretty grid download URLs.
+ *
+ * Matches /download/{slug} and passes the slug as a query var.
+ *
+ * @return void
+ */
+function wm_register_download_rewrite_rules(): void {
+	add_rewrite_rule( '^download/([^/]+)/?$', 'index.php?wm_download_slug=$matches[1]', 'top' );
+}
+
+add_action( 'init', 'wm_register_download_rewrite_rules' );
+
+/**
+ * Register the custom query var used by pretty download URLs.
+ *
+ * @param array $vars Existing query vars.
+ *
+ * @return array
+ */
+function wm_register_download_query_vars( array $vars ): array {
+	$vars[] = 'wm_download_slug';
+
+	return $vars;
+}
+
+add_filter( 'query_vars', 'wm_register_download_query_vars' );
+
