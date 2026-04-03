@@ -7,56 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * Handle pretty download URLs for grid posts.
- *
- * Looks up a grid post by slug, increments its download count,
- * and redirects to the worksheet hub PDF.
- *
- * @return void
- */
-function wm_grid_download_redirect(): void {
-
-	$slug = sanitize_title( get_query_var( 'wm_download_slug', '' ) );
-
-	if ( empty( $slug ) ) {
-		return;
-	}
-
-	$grid = get_page_by_path( $slug, OBJECT, 'grid' );
-
-	if ( ! $grid ) {
-		wp_die( esc_html__( 'Grid not found.', 'wm' ), '', array( 'response' => 404 ) );
-	}
-
-	$wkst_id = absint( get_field( WKSTHB_KEY, $grid->ID ) );
-
-	if ( $wkst_id <= 0 ) {
-		wp_die( esc_html__( 'Invalid worksheet ID.', 'wm' ), '', array( 'response' => 404 ) );
-	}
-
-	wm_increment_download_count( $grid->ID );
-
-	$url = esc_url( WKSTHB_URL . $wkst_id . '/' );
-
-	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-		<meta charset="utf-8">
-		<title><?php esc_html_e( 'Downloading...', 'wm' ); ?></title>
-		<script>window.location.href = <?php echo wp_json_encode( $url ); ?>;</script>
-	</head>
-	<body>
-		<p><?php esc_html_e( 'Your download will begin shortly.', 'wm' ); ?> <a href="<?php echo $url; ?>"><?php esc_html_e( 'Click here', 'wm' ); ?></a> <?php esc_html_e( 'if it does not start automatically.', 'wm' ); ?></p>
-	</body>
-	</html>
-	<?php
-	exit;
-}
-
-add_action( 'template_redirect', 'wm_grid_download_redirect', 1 );
-
 function wm_download_redirect(): void {
 
 	/**
