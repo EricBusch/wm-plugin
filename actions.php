@@ -55,7 +55,7 @@ function wm_grid_download_redirect(): void {
 	exit;
 }
 
-add_action( 'template_redirect', 'wm_grid_download_redirect' );
+add_action( 'template_redirect', 'wm_grid_download_redirect', 1 );
 
 function wm_download_redirect(): void {
 
