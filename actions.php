@@ -49,8 +49,13 @@ function wm_download_redirect(): void {
 	 */
 	wm_increment_download_count( $post_id );
 
+	/**
+	 * Get the download URL.
+	 */
+	$url = wm_get_worksheet_hub_download_url( $wkst_id );
+
 	// Redirect to Download file
-	wp_redirect( WKSTHB_URL . $wkst_id . '/' );
+	wp_redirect( $url );
 	die;
 }
 

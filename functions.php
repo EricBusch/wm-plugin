@@ -100,7 +100,7 @@ function wm_get_total_worksheets(): int {
 /**
  * Get all Collections
  *
- * @param array $args
+ * @param  array  $args
  *
  * @return array
  */
@@ -118,7 +118,7 @@ function wm_get_all_collections( array $args = [] ): array {
 /**
  * Get all Worksheets.
  *
- * @param array $args
+ * @param  array  $args
  *
  * @return array
  */
@@ -136,7 +136,7 @@ function wm_get_all_worksheets( array $args = [] ): array {
 /**
  * Get all Samples.
  *
- * @param array $args
+ * @param  array  $args
  *
  * @return array
  */
@@ -154,7 +154,7 @@ function wm_get_all_samples( array $args = [] ): array {
 /**
  * Get all Grids.
  *
- * @param array $args
+ * @param  array  $args
  *
  * @return array
  */
@@ -190,7 +190,7 @@ function wm_get_all_worksheet_themes( array $args = [] ): array {
 /**
  * Return a "signature" for the $data.
  *
- * @param string $data
+ * @param  string  $data
  *
  * @return bool|string
  * @since 0.9.68
@@ -236,7 +236,7 @@ function wm_get_hash(): string {
  *
  * @see https://stackoverflow.com/a/14300703
  *
- * @param string $md5
+ * @param  string  $md5
  *
  * @return bool
  */
@@ -289,4 +289,17 @@ function wm_increment_download_count( int $post_id ): void {
 
 function wm_current_user_is_admin(): bool {
 	return current_user_can( 'manage_options' );
+}
+
+// On the partner site (e.g. wp-writemandarin.test):
+function wm_get_worksheet_hub_download_url( int $fileId ): string {
+
+	$apiKey  = WORKSHEET_HUB_API_KEY; // Worksheet Hub API key
+	$expires = time() + ( 5 * MINUTE_IN_SECONDS ); // 5-minute window
+	$sig     = hash_hmac( 'sha256', "{$fileId}|{$expires}", $apiKey ); // HMAC signature
+
+	return add_query_arg( [
+		'expires' => $expires,
+		'sig'     => $sig,
+	], WORKSHEET_HUB_URL . $fileId );
 }
